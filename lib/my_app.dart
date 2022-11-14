@@ -1,10 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'Theme/AppColors.dart';
-import 'library/Widgets/inherited/provider.dart';
-import 'my_app_model.dart';
 import 'navigation/main_navigation.dart';
 
 class MyApp extends StatelessWidget {
@@ -17,7 +13,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.read<MyAppModel>(context);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -41,7 +36,7 @@ class MyApp extends StatelessWidget {
       ],
 
       routes: navigation.routes,
-      initialRoute: navigation.initialRoute(model?.isAuth == true),
+      initialRoute: MainNavigationRouteNames.loaderScreen,
       onGenerateRoute: navigation.onGenerateRoute,
     );
   }

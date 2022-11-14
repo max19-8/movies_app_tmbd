@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app_tmbd/library/Widgets/inherited/provider.dart';
 import 'package:movies_app_tmbd/movie_detail_screen/movie_details_main_info_widget.dart';
 import 'package:movies_app_tmbd/movie_detail_screen/movie_details_main_cast_widget.dart';
 import 'package:movies_app_tmbd/movie_detail_screen/movie_details_model.dart';
-import 'package:movies_app_tmbd/my_app_model.dart';
+import 'package:provider/provider.dart';
 
 class MovieDetailWidget extends StatefulWidget {
   const MovieDetailWidget({Key? key}) : super(key: key);
@@ -13,18 +12,14 @@ class MovieDetailWidget extends StatefulWidget {
 }
 
 class _MovieDetailWidgetState extends State<MovieDetailWidget> {
+
   @override
-  void initState() {
-    super.initState();
-   final model =  NotifierProvider.read<MovieDetailsModel>(context);
-   final appModel =  Provider.read<MyAppModel>(context);
-   model?.onSessionExpired = () => appModel?.resetSession(context);
-  }
-
-
   void didChangeDependencies() {
     super.didChangeDependencies();
-    NotifierProvider.read<MovieDetailsModel>(context)?.setupLocale(context);
+
+    final locale = Localizations.localeOf(context);
+    Future.microtask(() =>
+        context.read<MovieDetailsViewModel>().setupLocale(context,locale));
   }
 
   @override
@@ -47,13 +42,10 @@ class BodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model =   NotifierProvider.watch<MovieDetailsModel>(context);
-    final movieId = model?.movieDetails;
-    if(movieId == null){
+    final isLoading =context.select((MovieDetailsViewModel model) => model.data.isLoading );
+    if(isLoading){
       return const Center(child: CircularProgressIndicator());
     }
-
-
     return ListView(
       children:const [
         MovieDetailsMainInfoWidget(),
@@ -69,7 +61,7 @@ class _TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final model =   NotifierProvider.watch<MovieDetailsModel>(context);
-    return  Text(model?.movieDetails?.title ?? 'Загрузка...');
+  final title =  context.select((MovieDetailsViewModel model) => model.data.title );
+    return  Text(title);
   }
 }

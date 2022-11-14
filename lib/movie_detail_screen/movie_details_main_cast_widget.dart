@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../domain/api_client/api_client.dart';
-import '../library/Widgets/inherited/provider.dart';
+import 'package:movies_app_tmbd/domain/api_client/image_downloader.dart';
+import 'package:provider/provider.dart';
 import 'movie_details_model.dart';
 
 class MovieDetailsMainCastWidget extends StatelessWidget {
@@ -14,14 +14,14 @@ class MovieDetailsMainCastWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Padding(
+           const Padding(
             padding: EdgeInsets.all(10.0),
             child: Text(
               'Top Billed Cast',
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 250,
             child: Scrollbar(
               child: _ActorListWidget(),
@@ -31,7 +31,7 @@ class MovieDetailsMainCastWidget extends StatelessWidget {
             padding: const EdgeInsets.all(4.0),
             child: TextButton(
               onPressed: () {},
-              child: Text('Full Cast & Crew',style: TextStyle(color: Colors.black87,fontSize: 17),),
+              child: const Text('Full Cast & Crew',style: TextStyle(color: Colors.black87,fontSize: 17),),
             ),
           )
     ],
@@ -47,11 +47,10 @@ class _ActorListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<MovieDetailsModel>(context);
-    var  casts = model?.movieDetails?.credits.cast;
-    if(casts == null || casts.isEmpty) return const SizedBox.shrink();
+    final data = context.select(( MovieDetailsViewModel model ) => model.data.actorsData);
+    if( data.isEmpty) return const SizedBox.shrink();
     return ListView.builder(
-    itemCount: casts.length,
+    itemCount: data.length,
     itemExtent: 122,
     scrollDirection: Axis.horizontal,
     itemBuilder: (BuildContext context,int index){
@@ -70,8 +69,8 @@ class _ActorItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.read<MovieDetailsModel>(context);
-    var  actor = model!.movieDetails!.credits.cast[actorIndex];
+    final model = context.read<MovieDetailsViewModel>();
+    var  actor = model.data.actorsData[actorIndex];
     final profilePath = actor.profilePath;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -96,7 +95,7 @@ class _ActorItemWidget extends StatelessWidget {
           child: Column(
             children: [
               profilePath != null ?
-              Image.network(ApiClient.imageUrl(profilePath),fit: BoxFit.fitWidth,)
+              Image.network((ImageDownloader.imageUrl(profilePath)),fit: BoxFit.fitWidth,)
               : Image.asset('assets/images/placeholder.jpg', fit: BoxFit.fitWidth),
               Expanded(
                 child: Padding(

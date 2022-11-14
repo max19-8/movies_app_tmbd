@@ -1,17 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app_tmbd/Theme/AppButtonStyle.dart';
-import 'package:movies_app_tmbd/library/Widgets/inherited/provider.dart';
 import 'package:movies_app_tmbd/widgets/auth_screen/auth_model.dart';
+import 'package:provider/provider.dart';
 
-class AuthWidget extends StatefulWidget {
+
+class AuthWidget extends StatelessWidget {
   const AuthWidget({Key? key}) : super(key: key);
-
-  @override
-  State<AuthWidget> createState() => _AuthWidgetState();
-}
-
-class _AuthWidgetState extends State<AuthWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +67,7 @@ class _FormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.read<AuthModel>(context);
+    final model = context.read<AuthViewModel>();
     const textFieldDecorator = InputDecoration(
       // border: OutlineInputBorder(),
       isCollapsed: true,
@@ -93,14 +87,14 @@ class _FormWidget extends StatelessWidget {
         const SizedBox(height: 5),
         TextField(
             decoration: textFieldDecorator,
-            controller: model?.loginTextController),
+            controller: model.loginTextController),
         const SizedBox(height: 10),
         const Text('Password'),
         const SizedBox(height: 5),
         TextField(
             decoration: textFieldDecorator,
             obscureText: true,
-            controller: model?.passwordTextController),
+            controller: model.passwordTextController),
         const SizedBox(height: 20),
         Row(
           children: [
@@ -125,10 +119,9 @@ class _AuthButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<AuthModel>(context);
-    final onPressed =
-        model?.canStartAuth == true ? () => model?.auth(context) : null;
-    final child = model?.isAuthProgress == true
+final model = context.watch<AuthViewModel>();
+    final onPressed = model.canStartAuth ? () => model.auth(context) : null;
+    final child = model.isAuthProgress
         ? const SizedBox(
             width: 15, height: 15, child: CircularProgressIndicator(strokeWidth: 2,))
         : const Text('Login');
@@ -145,8 +138,8 @@ class _ErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorMessage = NotifierProvider.watch<AuthModel>(context)?.errorMessage;
-    if (errorMessage == null) return SizedBox.shrink();
+    final errorMessage = context.select((AuthViewModel model) => model.errorMessage);
+    if (errorMessage == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: Text(errorMessage,
