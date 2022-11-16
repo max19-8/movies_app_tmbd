@@ -44,6 +44,6 @@ class Paginator<T>{
     _currentPage = 0;
     _totalPage = 1;
     _data.clear();
-    await loadNextPage();
+ //   await loadNextPage();
   }
 }
