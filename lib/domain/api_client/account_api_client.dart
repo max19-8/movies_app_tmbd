@@ -33,7 +33,6 @@ class AccountApiClient{
       'media_id': mediaId,
       'favorite': isFavorite,
     };
-    print('bodyParameters $bodyParameters');
 
     final result = _networkClient.post('/account/$accountId/favorite',
         bodyParameters, parser, <String, dynamic>{
@@ -41,7 +40,6 @@ class AccountApiClient{
           'session_id': sessionId,
         });
 
-    print('markAsFavorite $isFavorite');
     return result;
   }
 
@@ -58,5 +56,4 @@ class AccountApiClient{
     });
     return result;
   }
-
 }

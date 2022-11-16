@@ -67,7 +67,7 @@ class MovieListViewModel extends ChangeNotifier {
 
   Future<void> searchMovie(String query) async {
     _searchDebounce?.cancel();
-    _searchDebounce = Timer(const Duration(milliseconds: 300), () async {
+    _searchDebounce = Timer(const Duration(milliseconds: 1000), () async {
       final searchQuery = query.isNotEmpty ? query : null;
       if (_searchQuery == searchQuery) return;
       _searchQuery = searchQuery;
@@ -87,12 +87,15 @@ class MovieListViewModel extends ChangeNotifier {
   }
 
   Future<void> _loadNextPage() async {
+    print(isSearchMode);
     if (isSearchMode) {
+      await _popularMoviePaginator.reset();
       await _searchMoviePaginator.loadNextPage();
       _movies = _searchMoviePaginator.data
           .map((movie) => _makeRowData(movie))
           .toList();
     } else {
+      await _searchMoviePaginator.reset();
       await _popularMoviePaginator.loadNextPage();
       _movies = _popularMoviePaginator.data
           .map((movie) => _makeRowData(movie))
@@ -119,8 +122,8 @@ class MovieListViewModel extends ChangeNotifier {
         .pushNamed(MainNavigationRouteNames.movieDetails, arguments: id);
   }
 
-  void showMovieAtIndex(int index) {
-    if (index < _movies.length - 1) return;
+  void showMovieAtIndex(int index)  {
+    if (index < _movies.length - 2) return;
     _loadNextPage();
   }
 }

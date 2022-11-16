@@ -201,7 +201,7 @@ class MovieDetailsViewModel extends ChangeNotifier {
         MainNavigation.resetNavigation(context);
         break;
       default:
-        print(exception);
+        print(' _handleApiClientException $exception');
     }
   }
 }

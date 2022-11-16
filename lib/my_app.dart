@@ -8,9 +8,6 @@ class MyApp extends StatelessWidget {
   static final navigation = MainNavigation();
   const MyApp({super.key,}
   );
-
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

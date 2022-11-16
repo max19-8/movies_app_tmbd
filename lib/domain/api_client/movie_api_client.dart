@@ -6,24 +6,7 @@ import 'network_client.dart';
 class MovieApiClient {
   final _networkClient = NetworkClient();
 
-  Future<PopularMovieResponse> searchMovie(
-      int page, String locale, String query,String apiKey) async {
-    parser(dynamic json) {
-      final jsonMap = json as Map<String, dynamic>;
-      final response = PopularMovieResponse.fromJson(jsonMap);
-      return response;
-    }
 
-    final result =
-        _networkClient.get('/search/movie/', parser, <String, dynamic>{
-      'api_key': apiKey,
-      'page': page.toString(),
-      'language': locale,
-      'query': query,
-      'include_adult': true.toString(),
-    });
-    return result;
-  }
 
   Future<MovieDetails> movieDetails(int movieId, String locale) async {
     parser(dynamic json) {
@@ -53,8 +36,6 @@ class MovieApiClient {
       'api_key': Configuration.apiKey,
       'session_id': sessionID,
     });
-    var res = await result;
-    print('isFavorite $res');
     return result;
   }
 
@@ -64,14 +45,31 @@ class MovieApiClient {
       final response = PopularMovieResponse.fromJson(jsonMap);
       return response;
     }
-
     final result = _networkClient.get(
         '/movie/popular', parser, <String, dynamic>{
       'api_key': apiKey,
       'page': page.toString(),
       'language': locale
     });
+    return result;
+  }
 
+  Future<PopularMovieResponse> searchMovie(
+      int page, String locale, String query,String apiKey) async {
+    parser(dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = PopularMovieResponse.fromJson(jsonMap);
+      return response;
+    }
+
+    final result =
+    _networkClient.get('/search/movie/', parser, <String, dynamic>{
+      'api_key': apiKey,
+      'page': page.toString(),
+      'language': locale,
+      'query': query,
+      'include_adult': true.toString(),
+    });
     return result;
   }
 

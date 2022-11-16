@@ -1,22 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:movies_app_tmbd/domain/services/auth_service.dart';
-import 'package:movies_app_tmbd/navigation/main_navigation.dart';
+import 'dart:async';
+import 'package:bloc/bloc.dart';
+import 'package:movies_app_tmbd/domain/blocs/auth_bloc.dart';
 
-class LoaderViewModel {
-  final BuildContext context;
-  final authService = AuthService();
+enum LoaderViewCubitState{authorized,noAuthorized,unknown}
 
-  LoaderViewModel(this.context) {
-    asyncInit();
+class LoaderViewCubit extends Cubit<LoaderViewCubitState>{
+  final AuthBloc authBloc;
+ late final StreamSubscription<AuthState> authBlocSubscription;
+
+  LoaderViewCubit(LoaderViewCubitState initializeState,  this.authBloc) :super(initializeState){
+    authBloc.add(AuthCheckEvent());
+    onState(authBloc.state);
+    authBlocSubscription = authBloc.stream.listen(onState);
   }
 
-  Future<void> asyncInit() async {
-    await checkAuth();
+  void onState(AuthState state){
+    if(state is AuthAuthorizedState){
+      emit(LoaderViewCubitState.authorized);
+    }else if(state is AuthNoAuthorizedState){
+      emit(LoaderViewCubitState.noAuthorized);
+    }
   }
 
-  Future<void> checkAuth() async {
-    final isAuth =  await authService.isAuth();
-    final nextScreen = isAuth ? MainNavigationRouteNames.mainScreen : MainNavigationRouteNames.auth;
-    Navigator.of(context).pushReplacementNamed(nextScreen);
+  @override
+  Future<void> close() {
+   authBlocSubscription.cancel();
+    return super.close();
   }
 }
+

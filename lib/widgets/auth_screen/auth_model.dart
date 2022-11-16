@@ -33,6 +33,7 @@ class AuthViewModel extends ChangeNotifier {
         case ApiClientExceptionType.auth:
           return 'Неправильный логин или пароль';
         case ApiClientExceptionType.sessionExpired:
+          return 'sessionExpired';
         case ApiClientExceptionType.other:
           return 'Произошла непредвиденная ошибка, пожалуйста попробуйте снова';
       }

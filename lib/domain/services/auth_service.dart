@@ -2,8 +2,7 @@ import 'package:movies_app_tmbd/domain/api_client/account_api_client.dart';
 import 'package:movies_app_tmbd/domain/api_client/auth_api_client.dart';
 import 'package:movies_app_tmbd/domain/data_providers/session_data_provider.dart';
 
-class AuthService{
-
+class AuthService {
   final _authApiClient = AuthApiClient();
   final _accountApiClient = AccountApiClient();
   final _sessionDataProvider = SessionDataProvider();
@@ -14,8 +13,9 @@ class AuthService{
     return isAuth;
   }
 
-  Future<void> login(String login,String password) async {
-    final sessionId =  await _authApiClient.auth(userName: login, password: password);
+  Future<void> login(String login, String password) async {
+    final sessionId =
+        await _authApiClient.auth(userName: login, password: password);
     final accountId = await _accountApiClient.getAccountInfo(sessionId);
     await _sessionDataProvider.setSessionId(sessionId);
     await _sessionDataProvider.setAccountId(accountId);

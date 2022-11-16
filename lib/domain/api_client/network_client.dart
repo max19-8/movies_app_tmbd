@@ -22,18 +22,14 @@ class NetworkClient {
       final request = await _client.getUrl(url);
       final response = await request.close();
       final dynamic json = (await response.jsonDecode());
-
       _validateResponse(response, json);
-
       final result = parser(json);
-
       return result;
     } on SocketException {
       throw ApiClientException(ApiClientExceptionType.network);
     } on ApiClientException {
       rethrow;
     } catch (e) {
-      print('exception ' + e.toString());
       throw ApiClientException(ApiClientExceptionType.other);
     }
   }
@@ -62,7 +58,6 @@ class NetworkClient {
     } on ApiClientException {
       rethrow;
     } catch (e) {
-      print('exception ' + e.toString());
       throw ApiClientException(ApiClientExceptionType.other);
     }
   }

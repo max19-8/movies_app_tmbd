@@ -20,21 +20,22 @@ class Paginator<T>{
   late int _totalPage;
   var _isLoadingInProgress = false;
   List<T> get data => _data;
+  var vizodMetoda = 1;
 
 
   Future<void> loadNextPage() async {
     if (_isLoadingInProgress || _currentPage >= _totalPage) return;
     _isLoadingInProgress = true;
     final nextPage = _currentPage + 1;
-
     try {
+      print(vizodMetoda++);
       final response = await load(nextPage);
       _data.addAll(response.data);
+      print(data.length);
       _currentPage = response.currentPage;
       _totalPage = response.totalPage;
-      _isLoadingInProgress = false;
     } catch (e) {
-      print(e.toString());
+      print(e);
     } finally {
       _isLoadingInProgress = false;
     }
@@ -44,6 +45,6 @@ class Paginator<T>{
     _currentPage = 0;
     _totalPage = 1;
     _data.clear();
-    await loadNextPage();
+  //  await loadNextPage(); // не надо тут вызывать
   }
 }
