@@ -20,7 +20,6 @@ class Paginator<T>{
   late int _totalPage;
   var _isLoadingInProgress = false;
   List<T> get data => _data;
-  var vizodMetoda = 1;
 
 
   Future<void> loadNextPage() async {
@@ -28,7 +27,6 @@ class Paginator<T>{
     _isLoadingInProgress = true;
     final nextPage = _currentPage + 1;
     try {
-      print(vizodMetoda++);
       final response = await load(nextPage);
       _data.addAll(response.data);
       print(data.length);

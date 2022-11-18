@@ -15,9 +15,7 @@ class AuthLoginEvent extends AuthEvent {
 
 class AuthLogoutEvent extends AuthEvent {}
 
-class AuthCheckEvent extends AuthEvent {}
-
-enum AuthStateStatus { authorized, notAuthorized, inProgress }
+class AuthCheckStatusEvent extends AuthEvent {}
 
 abstract class AuthState {}
 
@@ -47,12 +45,12 @@ class AuthFailureState extends AuthState {
   int get hashCode => error.hashCode;
 }
 
-class AuthProgressState extends AuthState {
+class AuthInProgressState extends AuthState {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is AuthProgressState||
-          other is AuthProgressState ;
+      identical(this, other) || other is AuthInProgressState||
+          other is AuthInProgressState ;
 
   @override
   int get hashCode => 0;
@@ -86,7 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc(AuthState initializeState) : super(initializeState) {
     on<AuthEvent>((event, emit) async {
-      if (event is AuthCheckEvent) {
+      if (event is AuthCheckStatusEvent) {
         await  onAuthCheckStatusEvent(event, emit);
       } else if (event is AuthLoginEvent) {
         await   onAuthLoginEvent(event, emit);
@@ -94,12 +92,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await  onAuthLogoutEvent(event, emit);
       }
     }, transformer: sequential());
-    add(AuthCheckEvent());
+    add(AuthCheckStatusEvent());
   }
 
-  Future<void> onAuthCheckStatusEvent(
-      AuthCheckEvent event, Emitter<AuthState> emit) async {
-
+  Future<void> onAuthCheckStatusEvent(AuthCheckStatusEvent event, Emitter<AuthState> emit) async {
+    emit(AuthInProgressState());
     final sessionId = await _sessionDataProvider.getSessionId();
     final newState =
         sessionId != null ? AuthAuthorizedState() : AuthNoAuthorizedState();
@@ -108,6 +105,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void>  onAuthLoginEvent(AuthLoginEvent event, Emitter<AuthState> emit) async {
     try {
+      emit(AuthInProgressState());
       final sessionId = await _authApiClient.auth(
           userName: event.login, password: event.password);
       final accountId = await _accountApiClient.getAccountInfo(sessionId);

@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app_tmbd/domain/blocs/auth_bloc.dart';
 
 enum LoaderViewCubitState{authorized,noAuthorized,unknown}
@@ -8,13 +9,16 @@ class LoaderViewCubit extends Cubit<LoaderViewCubitState>{
   final AuthBloc authBloc;
  late final StreamSubscription<AuthState> authBlocSubscription;
 
-  LoaderViewCubit(LoaderViewCubitState initializeState,  this.authBloc) :super(initializeState){
-    authBloc.add(AuthCheckEvent());
-    onState(authBloc.state);
-    authBlocSubscription = authBloc.stream.listen(onState);
-  }
+  LoaderViewCubit(LoaderViewCubitState initializeState,  this.authBloc) :super(initializeState) {
+    Future.microtask((){
+    _onState(authBloc.state);
+    authBlocSubscription = authBloc.stream.listen(_onState);
+    authBloc.add(AuthCheckStatusEvent());
+    });
+    }
 
-  void onState(AuthState state){
+
+  void _onState(AuthState state){
     if(state is AuthAuthorizedState){
       emit(LoaderViewCubitState.authorized);
     }else if(state is AuthNoAuthorizedState){
