@@ -5,8 +5,6 @@ abstract class LoaderViewModelAuthStatusProvider{
   Future<bool> isAuth();
 }
 
-
-
 class LoaderViewModel {
   final BuildContext context;
   final  LoaderViewModelAuthStatusProvider authStatusProvider;

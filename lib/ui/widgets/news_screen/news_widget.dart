@@ -77,7 +77,7 @@ class _TrendingMoviesWidget extends StatelessWidget {
     return ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: movies.length ,
-        itemExtent: 300,
+        itemExtent: 200,
         itemBuilder: (BuildContext context, int index) {
           return  _TrendMoviesItemWidget(index: index,movies: movies,);
         });

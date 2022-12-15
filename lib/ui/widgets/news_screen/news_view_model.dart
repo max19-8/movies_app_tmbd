@@ -38,7 +38,7 @@ class NewsViewModel extends ChangeNotifier {
 
   Future<void> getTrendingMovies() async {
     final result = await newsProvider.getTrendingMovies();
-    final movies = result.movies.map((Movie movie) => _movieMakeToRowData(movie)).toList();
+    final movies = result.movies.map((Movie movie) => _trendingMovieMakeToRowData(movie)).toList();
     _trendingMovies.addAll(movies);
     notifyListeners();
   }
@@ -92,6 +92,18 @@ class NewsViewModel extends ChangeNotifier {
         id: movie.id,
         title: movie.title,
         posterPath: movie.backdropPath,
+        releaseDate: releaseDateTitle,
+        overview: movie.overview);
+  }
+
+  ResultListRowData _trendingMovieMakeToRowData(Movie movie) {
+    final releaseDate = movie.releaseDate;
+    final releaseDateTitle =
+    releaseDate != null ? _dateFormat.format(releaseDate) : '';
+    return ResultListRowData(
+        id: movie.id,
+        title: movie.title,
+        posterPath: movie.posterPath,
         releaseDate: releaseDateTitle,
         overview: movie.overview);
   }
