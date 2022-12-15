@@ -1,4 +1,4 @@
-#movies_app_tmbd
+# MoviesAppTmdb
 приложение берет данные с  https://www.themoviedb.org/ апи.
 
 гифка  на память
