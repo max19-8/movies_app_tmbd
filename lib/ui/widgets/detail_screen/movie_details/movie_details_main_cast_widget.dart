@@ -47,7 +47,7 @@ class _ActorListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = context.select(( NewModel model ) => model.data.actorsData);
+    final data = context.select(( MovieDetailsModel model ) => model.data.actorsData);
     if( data.isEmpty) return  SizedBox.fromSize();
     return ListView.builder(
     itemCount: data.length,
@@ -69,7 +69,7 @@ class _ActorItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<NewModel>();
+    final model = context.read<MovieDetailsModel>();
     var  actor = model.data.actorsData[actorIndex];
     final profilePath = actor.profilePath;
     return Padding(

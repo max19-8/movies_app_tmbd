@@ -50,6 +50,7 @@ class NetworkClientDefault  implements NetworkClient{
     } on ApiClientException {
       rethrow;
     } catch (e) {
+      print(e.toString());
       throw ApiClientException(ApiClientExceptionType.other);
     }
   }

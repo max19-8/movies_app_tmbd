@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:movies_app_tmbd/data/entity/movie.dart';
+
+import 'movie.dart';
 
 part 'movies_response.g.dart';
 
@@ -14,7 +15,7 @@ class MovieResponse{
   MovieResponse(this.page, this.movies, this.totalResults, this.totalPages);
 
   factory MovieResponse.fromJson(Map<String, dynamic> json) =>
-      _$PopularMovieResponseFromJson(json);
+      _$MovieResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PopularMovieResponseToJson(this);
+  Map<String, dynamic> toJson() => _$MovieResponseToJson(this);
 }

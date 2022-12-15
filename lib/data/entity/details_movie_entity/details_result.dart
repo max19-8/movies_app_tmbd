@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:movies_app_tmbd/data/entity/movie_date_parser.dart';
+import 'package:movies_app_tmbd/data/entity/movie_list/movie_date_parser.dart';
 import 'movie_details_credits.dart';
 import 'details_videos.dart';
 

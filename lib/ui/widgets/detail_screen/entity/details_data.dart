@@ -40,7 +40,7 @@ class DetailsPosterData {
 }
 
 class DetailsMovieNameData {
-  final String name;
+  final String? name;
   final String year;
   DetailsMovieNameData({required this.name, required this.year});
 }

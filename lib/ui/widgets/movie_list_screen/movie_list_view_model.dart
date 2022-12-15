@@ -1,28 +1,14 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:movies_app_tmbd/data/entity/movie.dart';
-import 'package:movies_app_tmbd/data/entity/movies_response.dart';
+import 'package:movies_app_tmbd/data/entity/movie_list/movie.dart';
+import 'package:movies_app_tmbd/data/entity/movie_list/movies_response.dart';
 import 'package:movies_app_tmbd/data/services/movie_list_service.dart';
 import 'package:movies_app_tmbd/library/localized_model_storage.dart';
 import 'package:movies_app_tmbd/library/paginator.dart';
 import 'package:movies_app_tmbd/navigation/main_navigation_route_names.dart';
+import 'package:movies_app_tmbd/ui/entity/result_list_row_data.dart';
 
-class ResultListRowData {
-  final int id;
-  final String title;
-  final String? posterPath;
-  final String releaseDate;
-  final String overview;
-
-  ResultListRowData({
-    required this.id,
-    required this.title,
-    required this.posterPath,
-    required this.releaseDate,
-    required this.overview,
-  });
-}
 
 abstract class MovieListModelMoviesProvider{
   Future<MovieResponse> searchMovie(int page, String locale, String query);
@@ -35,10 +21,7 @@ class MovieListViewModel extends ChangeNotifier {
   late final Paginator<Movie> _searchMoviePaginator;
   final  _localeStorage = LocalizedModelStorage();
 
-
   var _movies = <ResultListRowData>[];
-
-
 
   List<ResultListRowData> get movies => List.unmodifiable(_movies);
   late DateFormat _dateFormat;
@@ -125,7 +108,6 @@ class MovieListViewModel extends ChangeNotifier {
     final id = _movies[index].id;
     Navigator.of(context)
         .pushNamed(MainNavigationRouteNames.movieDetails, arguments: id);
-
   }
 
   void showMovieAtIndex(int index) {

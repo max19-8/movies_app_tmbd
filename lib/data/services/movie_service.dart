@@ -1,10 +1,12 @@
 import 'package:movies_app_tmbd/data/api_client/account_api_client.dart';
+import 'package:movies_app_tmbd/data/api_client/media_type.dart';
 import 'package:movies_app_tmbd/data/api_client/movie_api_client.dart';
-import 'package:movies_app_tmbd/data/entity/movies_response.dart';
+import 'package:movies_app_tmbd/data/entity/details_movie_entity/movie_details_local.dart';
+import 'package:movies_app_tmbd/data/entity/movie_list/movies_response.dart';
 import 'package:movies_app_tmbd/domain/data_providers/session_data_provider.dart';
-import 'package:movies_app_tmbd/data/entity/movie_details_local.dart';
 import 'package:movies_app_tmbd/library/config/configuration.dart';
 import 'package:movies_app_tmbd/ui/widgets/movie_list_screen/movie_list_view_model.dart';
+
 
 class MovieService  implements  MovieListModelMoviesProvider{
 

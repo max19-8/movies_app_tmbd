@@ -1,5 +1,5 @@
 import 'package:movies_app_tmbd/data/entity/details_movie_entity/details_result.dart';
-import 'package:movies_app_tmbd/data/entity/movies_response.dart';
+import 'package:movies_app_tmbd/data/entity/movie_list/movies_response.dart';
 import 'package:movies_app_tmbd/library/config/configuration.dart';
 import 'network_client.dart';
 

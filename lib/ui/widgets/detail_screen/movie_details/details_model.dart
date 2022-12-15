@@ -2,34 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:movies_app_tmbd/data/api_client/api_client_exception.dart';
 import 'package:movies_app_tmbd/data/entity/details_movie_entity/details_result.dart';
+import 'package:movies_app_tmbd/data/entity/details_movie_entity/movie_details_local.dart';
 import 'package:movies_app_tmbd/data/services/movie_service.dart';
-import 'package:movies_app_tmbd/data/entity/movie_details_local.dart';
 import 'package:movies_app_tmbd/library/localized_model_storage.dart';
 import 'package:movies_app_tmbd/navigation/main_navigation_actions.dart';
-import 'entity/details_data.dart';
-
-abstract class DetailsViewModel<T,P> {
-
-   DetailsViewModel();
-
-   Future<void> setupLocale(BuildContext context,Locale locale);
-
-   void updateData(T details, bool isFavorite);
-
-   String makeSummary(T details);
-
-   List<List<P>> makePeopleData(
-       T details);
-
-   Future<void> loadDetails(BuildContext context);
-
-   Future<void> toggleFavorite(BuildContext context);
-
-   void handleApiClientException(
-       ApiClientException exception, BuildContext context){
-   }
-}
-
+import '../entity/details_data.dart';
 
 abstract class MovieDetailsModelLogoutProvider{
    Future<void> logout();
@@ -41,7 +18,7 @@ abstract class MovieDetailsModelMovieProvider{
        { required int movieId, required String locale});
 }
 
-class NewModel extends ChangeNotifier {
+class MovieDetailsModel extends ChangeNotifier {
    final int movieId;
    final data = DetailsData();
    final  MovieService movieProvider;
@@ -50,7 +27,7 @@ class NewModel extends ChangeNotifier {
 
    final  _localeStorage = LocalizedModelStorage();
 
-   NewModel(this.movieId,{required this.authProvider,required this.movieProvider,required this.navigationActions});
+   MovieDetailsModel(this.movieId,{required this.authProvider,required this.movieProvider,required this.navigationActions});
    late DateFormat _dateFormat;
 
    Future<void> setupLocale(BuildContext context,Locale locale) async {
@@ -73,7 +50,7 @@ class NewModel extends ChangeNotifier {
           posterPath: details.posterPath?? '',
           isFavorite: isFavorite);
       var year = details.releaseDate?.year.toString() ?? '';
-      year = year != null ? ' ($year) ' : '';
+      year =  ' ($year) ';
       data.movieNameData =
           DetailsMovieNameData(name: details.title, year: year);
       final videos = details.videos?.results

@@ -2,8 +2,8 @@ import 'package:movies_app_tmbd/data/api_client/account_api_client.dart';
 import 'package:movies_app_tmbd/data/api_client/auth_api_client.dart';
 import 'package:movies_app_tmbd/domain/data_providers/session_data_provider.dart';
 import 'package:movies_app_tmbd/ui/widgets/auth_screen/auth_model.dart';
+import 'package:movies_app_tmbd/ui/widgets/detail_screen/movie_details/details_model.dart';
 import 'package:movies_app_tmbd/ui/widgets/loader_screen/loader_view_model.dart';
-import 'package:movies_app_tmbd/ui/widgets/movie_detail_screen/details_model.dart';
 
 class AuthService implements AuthViewModelLoginProvider ,LoaderViewModelAuthStatusProvider,MovieDetailsModelLogoutProvider {
 

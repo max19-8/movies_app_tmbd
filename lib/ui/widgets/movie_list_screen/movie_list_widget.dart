@@ -132,7 +132,7 @@ class _MovieListRowWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        movie.overview,
+                        movie.overview ?? "Описание недоступно",
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),

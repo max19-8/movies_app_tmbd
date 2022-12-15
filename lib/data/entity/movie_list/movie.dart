@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 import 'movie_date_parser.dart';
 part 'movie.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)

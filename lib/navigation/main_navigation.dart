@@ -11,6 +11,8 @@ import 'main_navigation_route_names.dart';
   Widget makeMovieTrailerWidget(String youTubeKey) ;
   Widget makePopularMovieListWidget();
   Widget makeTopRatedListWidget();
+  Widget makeNewsWidget();
+  Widget makeTvShowDetailsWidget(int tvShowId);
 }
 
 
@@ -34,6 +36,12 @@ class MainNavigation implements MyAppNavigation {
         final movieId = arguments is int ? arguments : 0;
         return MaterialPageRoute(
             builder: (context) =>screenFactory.makeMovieDetailsWidget(movieId),
+        );
+      case MainNavigationRouteNames.tvShowDetails:
+        final arguments = settings.arguments;
+        final tvShowId = arguments is int ? arguments : 0;
+        return MaterialPageRoute(
+          builder: (context) =>screenFactory.makeTvShowDetailsWidget(tvShowId),
         );
       case MainNavigationRouteNames.movieDetailsTrailer:
         final arguments = settings.arguments;

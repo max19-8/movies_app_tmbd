@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app_tmbd/data/services/auth_service.dart';
 import 'package:movies_app_tmbd/navigation/main_navigation.dart';
+import 'package:movies_app_tmbd/navigation/main_navigation_actions.dart';
 
 class MainMidget extends StatefulWidget {
-  const MainMidget({Key? key, required this.screenFactory}) : super(key: key);
+  final AuthService authService;
+  final  MainNavigationActions navigationActions;
   final ScreenFactory screenFactory;
+  const MainMidget({Key? key, required this.screenFactory,required this.authService, required this.navigationActions}) : super(key: key);
+
   @override
   State<MainMidget> createState() => _MainMidgetState();
 }
@@ -25,11 +30,20 @@ class _MainMidgetState extends State<MainMidget> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('TMBD'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+              widget.authService.logout();
+              widget.navigationActions.resetNavigation(context);
+            },
+          ),
+        ],
       ),
       body: IndexedStack(
         index: _selectedTab,
         children:  [
-          const Text('НОВОСТИ'),
+          widget.screenFactory.makeNewsWidget(),
           widget.screenFactory.makePopularMovieListWidget(),
           widget.screenFactory.makeTopRatedListWidget(),
         ],

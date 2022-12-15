@@ -1,27 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'movies_response.dart';
+part of 'tv_show_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-MovieResponse _$PopularMovieResponseFromJson(
-        Map<String, dynamic> json) =>
-    MovieResponse(
+TvShowResponse _$TvShowResponseFromJson(Map<String, dynamic> json) =>
+    TvShowResponse(
       json['page'] as int,
       (json['results'] as List<dynamic>)
-          .map((e) => Movie.fromJson(e as Map<String, dynamic>))
+          .map((e) => TvShow.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['total_results'] as int,
       json['total_pages'] as int,
     );
 
-Map<String, dynamic> _$PopularMovieResponseToJson(
-        MovieResponse instance) =>
+Map<String, dynamic> _$TvShowResponseToJson(TvShowResponse instance) =>
     <String, dynamic>{
       'page': instance.page,
-      'results': instance.movies.map((e) => e.toJson()).toList(),
+      'results': instance.tvShows.map((e) => e.toJson()).toList(),
       'total_results': instance.totalResults,
       'total_pages': instance.totalPages,
     };

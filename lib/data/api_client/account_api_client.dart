@@ -1,19 +1,7 @@
 import 'package:movies_app_tmbd/library/config/configuration.dart';
 
+import 'media_type.dart';
 import 'network_client.dart';
-
-enum ApiClientMediaType { movie, tv }
-
-extension MediaTypeAsString on ApiClientMediaType {
-  String asString() {
-    switch (this) {
-      case ApiClientMediaType.movie:
-        return 'movie';
-      case ApiClientMediaType.tv:
-        return 'tv';
-    }
-  }
-}
 
 abstract class AccountApiClient{
   Future<int> markAsFavorite({

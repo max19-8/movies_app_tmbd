@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:movies_app_tmbd/data/api_client/image_downloader.dart';
 import 'package:movies_app_tmbd/navigation/main_navigation_route_names.dart';
 import 'package:movies_app_tmbd/ui/widgets/custom_widgets/radial_percent_widget.dart';
+import 'package:movies_app_tmbd/ui/widgets/detail_screen/entity/details_data.dart';
 import 'package:provider/provider.dart';
 
-import 'entity/details_data.dart';
-import 'details_model.dart';
+import 'tv_show_details_model.dart';
 
 
-class MovieDetailsMainInfoWidget extends StatelessWidget {
-  const MovieDetailsMainInfoWidget({Key? key}) : super(key: key);
+class TvShowDetailsMainInfoWidget extends StatelessWidget {
+  const TvShowDetailsMainInfoWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,25 +34,23 @@ class MovieDetailsMainInfoWidget extends StatelessWidget {
     );
   }
 }
-
-
 class _TopPosterWidget extends StatelessWidget {
   const _TopPosterWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<NewModel>();
-   final posterData = context.select((NewModel model) => model.data.posterData);
-   final backdropPath = posterData.backdropPath;
-   final posterPath =posterData.posterPath;
+    final model = context.read<TvShowDetailsModel>();
+    final posterData = context.select((TvShowDetailsModel model) => model.data.posterData);
+    final backdropPath = posterData.backdropPath;
+    final posterPath =posterData.posterPath;
     return AspectRatio(
       aspectRatio: 390 / 219,
       child: Stack(children: [
 
-       backdropPath != null
-           ? Image.network(ImageDownloader.imageUrl(backdropPath))
-           :
-          const SizedBox.shrink(),
+        backdropPath != null
+            ? Image.network(ImageDownloader.imageUrl(backdropPath))
+            :
+        const SizedBox.shrink(),
         Positioned(
           top: 20,
           left: 20,
@@ -65,7 +63,7 @@ class _TopPosterWidget extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 5,
+            top: 5,
             right: 5,
             child: IconButton(onPressed: () => model.toggleFavorite(context),  icon: Icon (posterData.favoriteIcon,color: Colors.red,))
         )
@@ -74,12 +72,11 @@ class _TopPosterWidget extends StatelessWidget {
   }
 }
 
-
 class _MovieNameWidget extends StatelessWidget {
   const _MovieNameWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final data = context.select((NewModel model) => model.data.movieNameData);
+    final data = context.select((TvShowDetailsModel model) => model.data.movieNameData);
     return Center(
       child: RichText(
         textAlign: TextAlign.center,
@@ -106,7 +103,7 @@ class _ScoreWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scoreData = context.select((NewModel model) => model.data.scoreData);
+    final scoreData = context.select((TvShowDetailsModel model) => model.data.scoreData);
     final voteAverage = scoreData.voteAverage;
     final trailerKey = scoreData.trailerKey;
     return Row(
@@ -129,15 +126,15 @@ class _ScoreWidget extends StatelessWidget {
         Container(width: 1, height: 15, color: Colors.grey,),
         trailerKey != null ?
         TextButton(onPressed: () => Navigator.of(context).pushNamed(MainNavigationRouteNames.movieDetailsTrailer,arguments:trailerKey),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                Icon(Icons.play_arrow),
-                Text('Играть трейлер',maxLines: 1,)
-              ],
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: const [
+              Icon(Icons.play_arrow),
+              Text('Играть трейлер',maxLines: 1,)
+            ],
+          ),
         )
-        : const  Text('Трейлер не найден',style: TextStyle(color: Colors.blue),),
+            : const  Text('Трейлер не найден',style: TextStyle(color: Colors.blue),),
 
 
       ],);
@@ -151,7 +148,7 @@ class _SummaryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final summary = context.select((NewModel model) => model.data.summary);
+    final summary = context.select((TvShowDetailsModel model) => model.data.summary);
     return ColoredBox(
       color: const Color.fromRGBO(22, 21, 25, 1.0),
       child: Padding(
@@ -188,7 +185,7 @@ class _DescriptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final overview = context.select((NewModel model) => model.data.overview);
+    final overview = context.select((TvShowDetailsModel model) => model.data.overview);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Text(overview,
@@ -204,7 +201,7 @@ class _PeopleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var crew = context.select(( NewModel model ) => model.data.peopleData);
+    var crew = context.select(( TvShowDetailsModel model ) => model.data.peopleData);
     if (crew.isEmpty) return const SizedBox.shrink();
 
 
@@ -238,7 +235,6 @@ class _PeopleWidgetRow extends StatelessWidget {
     );
   }
 }
-
 class _PeopleWidgetRowItem extends StatelessWidget {
   final DetailsMoviePeoplesData employee;
   const _PeopleWidgetRowItem({Key? key, required this.employee})
@@ -261,13 +257,3 @@ class _PeopleWidgetRowItem extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
