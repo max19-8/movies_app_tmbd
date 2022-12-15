@@ -58,7 +58,6 @@ class _UpcomingMoviesWidget extends StatelessWidget {
     var movies = model.movies;
     return ListView.builder(
         scrollDirection: Axis.horizontal,
-      //  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         itemCount: movies.length,
         itemExtent: 300,
         itemBuilder: (BuildContext context, int index) {
@@ -76,13 +75,11 @@ class _TrendingMoviesWidget extends StatelessWidget {
     final model =  context.watch<NewsViewModel>();
     final movies = model.trendingMovies;
     return ListView.builder(
-    //    padding: const EdgeInsets.only(top: 10),
         scrollDirection: Axis.horizontal,
-        //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         itemCount: movies.length ,
         itemExtent: 300,
         itemBuilder: (BuildContext context, int index) {
-          return  _MoviesItemWidget(index: index,movies: movies,);
+          return  _TrendMoviesItemWidget(index: index,movies: movies,);
         });
   }
 }
@@ -95,7 +92,6 @@ class _TrendingTvShowWidget extends StatelessWidget {
     final model =  context.watch<NewsViewModel>();
     final tvShows = model.trendingTvShow;
     return ListView.builder(
-       // padding: const EdgeInsets.only(top: 70),
         scrollDirection: Axis.horizontal,
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         itemCount: tvShows.length,
@@ -223,3 +219,49 @@ class _TvShowItemWidget extends StatelessWidget {
     );
   }
   }
+
+  class _TrendMoviesItemWidget extends StatelessWidget {
+final int index;
+final List<ResultListRowData> movies;
+const _TrendMoviesItemWidget({Key? key, required this.index,required this.movies}) : super(key: key);
+
+@override
+Widget build(BuildContext context) {
+  final tvShow = movies[index];
+  final posterPath = tvShow.posterPath;
+  final model =  context.watch<NewsViewModel>();
+  return Padding(
+    padding:
+    const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+    child: Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border:
+            Border.all(color: Colors.black.withOpacity(0.2)),
+            borderRadius:
+            const BorderRadius.all(Radius.circular(10)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                offset: const Offset(0, 2),
+                blurRadius: 8,
+              ),
+            ],
+          ),
+          clipBehavior: Clip.hardEdge,
+          child: posterPath != null ? Image.network(ImageDownloader.imageUrl(posterPath) ) :Image.asset('assets/images/placeholder.jpg'),
+        ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(10),
+            onTap: () => model.onMovieTap(context, index,movies),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+}

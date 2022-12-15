@@ -11,8 +11,8 @@ class AuthViewModel extends ChangeNotifier {
   final MainNavigationActions mainNavigationActions;
   final AuthViewModelLoginProvider loginProvider;
 
-  final loginTextController = TextEditingController(text: 'kozyrev9797');
-  final passwordTextController = TextEditingController(text: '120197max');
+  final loginTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
 
   String? _errorMessage;
 
